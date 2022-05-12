@@ -1,0 +1,12 @@
+<div th:fragment="menu" class="row">
+    <ul class="nav">
+        <li class="nav-item" th:each="menu: ${menus}" th:object="${menu}">
+            <div th:if="*{current}">
+                <span class="nav-link" th:text="*{name}"></span>
+            </div>
+            <div th:unless="*{current}">
+                <a class="nav-link" th:href="@{|*{path}|}" th:text="*{name}"></a>
+            </div>
+        </li>
+    </ul>
+</div>

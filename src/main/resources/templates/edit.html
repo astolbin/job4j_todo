@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/head::head"></head>
+<body>
+<div class="container pt-3">
+    <div class="row">
+        <ul class="nav" th:replace="/menu::menu"></ul>
+    </div>
+    <div class="row">
+        <div class="card" style="width: 100%" th:object="${item}">
+            <div class="card-header" th:text="*{id > 0 ? 'Изменить задачу' : 'Новая задача'}"></div>
+            <div class="card-body">
+                <form th:action="@{/save}" method="post">
+                    <input type="hidden" name="id" th:value="*{id}" />
+                    <input type="text" name="description" class="form-control" placeholder="Описание задачи" th:value="*{description}" />
+                    <br/>
+                    <button
+                        class="btn"
+                        th:each="action: ${actions}"
+                        th:object="${action}"
+                        type="submit"
+                        th:text="*{name}"
+                        th:classappend="*{view}"
+                    ></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
