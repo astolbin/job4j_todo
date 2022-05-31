@@ -59,22 +59,39 @@ public class ItemStore {
         return result;
     }
 
-    public boolean update(int id, Item item) {
+    public void updateDescription(int id, String description) {
         final Session session = sf.openSession();
         try (session) {
             session.beginTransaction();
-            item.setId(id);
-            session.update(item);
+            String sql = "update Item i set i.description = :description where i.id = :id";
+            session.createQuery(sql)
+                    .setParameter("description", description)
+                    .setParameter("id", id)
+                    .executeUpdate();
             session.getTransaction().commit();
         } catch (Exception e) {
             session.getTransaction().rollback();
             LOG.error("Exception", e);
-            return false;
         }
-        return true;
     }
 
-    public boolean add(Item item) {
+    public void updateDone(int id, boolean done) {
+        final Session session = sf.openSession();
+        try (session) {
+            session.beginTransaction();
+            String sql = "update Item i set i.done = :done where i.id = :id";
+            session.createQuery(sql)
+                    .setParameter("done", done)
+                    .setParameter("id", id)
+                    .executeUpdate();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            LOG.error("Exception", e);
+        }
+    }
+
+    public void add(Item item) {
         final Session session = sf.openSession();
         try (session) {
             session.beginTransaction();
@@ -83,24 +100,20 @@ public class ItemStore {
         } catch (Exception e) {
             session.getTransaction().rollback();
             LOG.error("Exception", e);
-            return false;
         }
-        return true;
     }
 
-    public boolean delete(int id) {
+    public void delete(int id) {
         final Session session = sf.openSession();
         try (session) {
             session.beginTransaction();
-            Item item = new Item(null);
+            Item item = new Item();
             item.setId(id);
             session.delete(item);
             session.getTransaction().commit();
         } catch (Exception e) {
             session.getTransaction().rollback();
             LOG.error("Exception", e);
-            return false;
         }
-        return true;
     }
 }

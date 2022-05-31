@@ -56,16 +56,27 @@ public class ItemStoreTest {
     }
 
     @Test
-    public void whenUpdate() {
+    public void whenUpdateDescription() {
         ItemStore itemStore = new ItemStore(sf);
 
         Item item = new Item("task", LocalDateTime.now(), false);
         itemStore.add(item);
 
-        item.setDescription("task updated");
-        itemStore.update(item.getId(), item);
+        itemStore.updateDescription(item.getId(), "task updated");
 
         assertEquals("task updated", itemStore.getById(item.getId()).getDescription());
+    }
+
+    @Test
+    public void whenUpdateDone() {
+        ItemStore itemStore = new ItemStore(sf);
+
+        Item item = new Item("task", LocalDateTime.now(), false);
+        itemStore.add(item);
+
+        itemStore.updateDone(item.getId(), true);
+
+        assertTrue(itemStore.getById(item.getId()).isDone());
     }
 
     @Test

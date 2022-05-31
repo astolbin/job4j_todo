@@ -15,20 +15,14 @@ public class TaskService {
     }
 
     public void success(int taskId) {
-        Item item = itemStore.getById(taskId);
-        if (item != null) {
-            item.setDone(true);
-            itemStore.update(item.getId(), item);
-        }
+        itemStore.updateDone(taskId, true);
     }
 
     public void set(int taskId, String description) {
-        Item item = itemStore.getById(taskId);
-        if (item == null) {
-            itemStore.add(new Item(description));
+        if (taskId > 0) {
+            itemStore.updateDescription(taskId, description);
         } else {
-            item.setDescription(description);
-            itemStore.update(taskId, item);
+            itemStore.add(new Item(description));
         }
     }
 
